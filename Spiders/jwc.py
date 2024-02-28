@@ -76,5 +76,4 @@ def spider(response: SpiderResponse) -> None:
         news_data_list = crawl_next_page()
         add_news_data_list(news_data_list, response)
 
-    response.news_data_list = news_data_list
-    response.saved_info = str(get_order(news_data_list[0].url))
+    response.saved_info = str(get_order(response.news_data_list[0].url))

@@ -14,9 +14,10 @@ class SpiderResponse:
         return len(self.news_data_list)
 
     def __str__(self) -> str:
-        text = f"code:\t\t{self.code}\n" \
-               f"saved_info:\t{self.saved_info}\n" \
-               f"src_site_name:\t{self.src_site_name}\n" \
-               f"src_site_url:\t{self.src_site_url}\n"
+        text = f"code:\t\t\t\t{self.code}\n" \
+               f"saved_info:\t\t\t{self.saved_info}\n" \
+               f"quantity_of_news:\t{self.quantity_of_news()}\n" \
+               f"src_site_name:\t\t{self.src_site_name}\n" \
+               f"src_site_url:\t\t{self.src_site_url}\n"
 
         return text
