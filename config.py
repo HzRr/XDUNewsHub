@@ -1,0 +1,3 @@
+
+POLLING_INTERVAL: int = 1
+MAX_RETRY_CNT: int = 3

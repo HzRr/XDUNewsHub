@@ -65,7 +65,7 @@ def add_news_data_list(news_data_list: List[NewsData], response: SpiderResponse)
 
 
 @polling_request
-def spider(response: SpiderResponse) -> None:
+def jwc_spider(response: SpiderResponse) -> None:
     response.src_site_name = site_name
     response.src_site_url = site_url
 
