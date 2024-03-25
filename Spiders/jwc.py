@@ -4,8 +4,8 @@ from typing import List
 import requests
 from lxml import etree
 
-from Utils.polling import polling_request
 from Struct import NewsData, SpiderResponse
+from Utils.database import news_exists
 
 
 src_url = "https://jwc.xidian.edu.cn/tzgg.htm"
@@ -62,9 +62,18 @@ def get_order(url: str) -> int:
 def add_news_data_list(news_data_list: List[NewsData], response: SpiderResponse) -> None:
     for news_data in news_data_list:
         response.news_data_list.append(news_data)
+    return
 
 
-@polling_request
+def remove_existing_news_data(response: SpiderResponse) -> None:
+    news_data_list = []
+    for news_data in response.news_data_list:
+        if news_exists(news_data.url) is False:
+            news_data_list.append(news_data)
+    response.news_data_list = news_data_list
+    return
+
+
 def jwc_spider(response: SpiderResponse) -> None:
     response.src_site_name = site_name
     response.src_site_url = site_url
@@ -77,3 +86,6 @@ def jwc_spider(response: SpiderResponse) -> None:
         add_news_data_list(news_data_list, response)
 
     response.saved_info = str(get_order(response.news_data_list[0].url))
+    remove_existing_news_data(response)
+
+    return

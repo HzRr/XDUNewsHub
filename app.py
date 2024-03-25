@@ -1,4 +1,4 @@
-from Spiders import spiders
+from Utils.polling import polling
 
 
-
+polling()

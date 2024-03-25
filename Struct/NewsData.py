@@ -1,3 +1,5 @@
+import datetime
+
 
 class NewsData:
     timestamp: int
