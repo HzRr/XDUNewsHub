@@ -8,7 +8,7 @@ def get_connection() -> pymysql.connections.Connection:
     return pymysql.connect(database='news_hub', **MYSQL_CONFIG)
 
 
-def query(url: str) -> list:
+def query_by_url(url: str) -> list:
     sql = "SELECT url, title, timestamp, site_name, site_url FROM news_data where url='%s'" % url
     with get_connection() as conn:
         with conn.cursor() as cursor:
@@ -16,10 +16,19 @@ def query(url: str) -> list:
             return cursor.fetchall()
 
 
-def add_news_data(news_data: NewsData, site_name: str, site_url: str) -> int:
+def select_news_data(filter_str: str, order_str: str) -> list:
+    sql = ("SELECT url, title, timestamp, site_name, site_url FROM news_data WHERE %s ORDER BY %s" %
+           (filter_str, order_str))
+    with get_connection() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(sql)
+            return cursor.fetchall()
+
+
+def add_news_data(news_data: NewsData) -> int:
     sql = ("INSERT INTO news_data (url, title, timestamp, site_name, site_url) "
            "VALUES ('%s', '%s', FROM_UNIXTIME(%s), '%s', '%s')" %
-           (news_data.url, news_data.title, news_data.timestamp, site_name, site_url))
+           (news_data.url, news_data.title, news_data.timestamp, news_data.site_name, news_data.site_url))
     with get_connection() as conn:
         with conn.cursor() as cursor:
             cursor.execute(sql)
@@ -27,10 +36,10 @@ def add_news_data(news_data: NewsData, site_name: str, site_url: str) -> int:
             return cursor.rowcount
 
 
-def update_news_data(news_data: NewsData, site_name: str, site_url: str) -> int:
+def update_news_data(news_data: NewsData) -> int:
     sql = ("UPDATE news_data SET title='%s', timestamp=FROM_UNIXTIME(%s), site_name='%s', site_url='%s' "
            "WHERE url='%s'" %
-           (news_data.title, news_data.timestamp, site_name, site_url, news_data.url))
+           (news_data.title, news_data.timestamp, news_data.site_name, news_data.site_url, news_data.url))
     with get_connection() as conn:
         with conn.cursor() as cursor:
             cursor.execute(sql)

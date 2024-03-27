@@ -35,7 +35,7 @@ def handle_response(spider_name: str, response: SpiderResponse) -> None:
     exists_cnt = 0
     for news_data in response.news_data_list:
         try:
-            add_news_data(news_data, response.site_name, response.site_url)
+            add_news_data(news_data)
         except pymysql.err.IntegrityError:
             exists_cnt += 1
             logger.error(f'spider: [{spider_name}] news: [{news_data.url}] already exists')
