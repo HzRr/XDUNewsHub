@@ -14,9 +14,11 @@ try:
         cursor.execute("USE news_hub;")
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS `news_data` (
-                `url` VARCHAR(63) NOT NULL,
+                `url` VARCHAR(127) NOT NULL,
                 `title` VARCHAR(255) NOT NULL,
                 `timestamp` DATETIME NULL DEFAULT NULL,
+                `site_name` VARCHAR(63) NULL DEFAULT NULL,
+                `site_url` VARCHAR(127) NULL DEFAULT NULL,
                 PRIMARY KEY (`url`)
             ) COLLATE='utf8mb4_unicode_ci';
         """)

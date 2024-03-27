@@ -75,8 +75,8 @@ def remove_existing_news_data(response: SpiderResponse) -> None:
 
 
 def jwc_spider(response: SpiderResponse) -> None:
-    response.src_site_name = site_name
-    response.src_site_url = site_url
+    response.site_name = site_name
+    response.site_url = site_url
 
     news_data_list = crawl_page(src_url)
     add_news_data_list(news_data_list, response)
