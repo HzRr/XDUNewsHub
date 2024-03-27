@@ -1,7 +1,7 @@
 # XDUNewsHubBackEnd
 西电新闻通知整合站(后端)
 
-# 使用方法
+## 使用方法
 1. clone this repo
 
     ```
