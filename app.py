@@ -1,7 +1,8 @@
 import streamlit as st
+import requests
 
-from Utils.database import select_news_data
 from Struct import NewsData
+from config import PAGE_NEWS_LIMIT, GET_NEWS_API_URL
 
 import datetime
 
@@ -59,14 +60,13 @@ def build_news_table(news_data_list: list[NewsData]):
     st.markdown(html_str, unsafe_allow_html=True)
 
 
-def test():
-    queried_items = select_news_data("true", "NULL")
+def update_news_table(queried_items: list) -> None:
     news_data_list = []
     for item in queried_items:
         news_data = NewsData()
         news_data.url = item['url']
         news_data.title = item['title']
-        news_data.timestamp = item['timestamp'].timestamp()
+        news_data.timestamp = item['timestamp']
         news_data.site_name = item['site_name']
         news_data.site_url = item['site_url']
 
@@ -75,4 +75,20 @@ def test():
     build_news_table(news_data_list)
 
 
-test()
+def query_news(post_params: dict) -> list:
+    raw_resp = requests.post(GET_NEWS_API_URL, params=post_params)
+    if raw_resp.status_code == 200:
+        # TODO: print total_news, page_news_num
+        resp = raw_resp.json()
+        return resp['queried_items']
+    else:
+        # TODO: else condition
+        print(raw_resp)
+        pass
+
+
+params = {
+    "num": PAGE_NEWS_LIMIT,
+}
+
+update_news_table(query_news(params))

@@ -3,7 +3,6 @@ import pymysql.cursors
 from config import MYSQL_CONFIG
 from Utils.logger import get_logger
 
-
 connection = pymysql.connect(**MYSQL_CONFIG)
 logger = get_logger(name="create_database")
 
@@ -14,12 +13,14 @@ try:
         cursor.execute("USE news_hub;")
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS `news_data` (
-                `url` VARCHAR(127) NOT NULL,
-                `title` VARCHAR(255) NOT NULL,
-                `timestamp` DATETIME NULL DEFAULT NULL,
-                `site_name` VARCHAR(63) NULL DEFAULT NULL,
-                `site_url` VARCHAR(127) NULL DEFAULT NULL,
-                PRIMARY KEY (`url`)
+              `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+              `url` VARCHAR(127) NOT NULL,
+              `title` VARCHAR(255) NOT NULL,
+              `datetime` DATETIME NULL DEFAULT NULL,
+              `site_name` VARCHAR(63) NULL DEFAULT NULL,
+              `site_url` VARCHAR(127) NULL DEFAULT NULL,
+              PRIMARY KEY (`id`),
+              UNIQUE INDEX `url_UNIQUE` (`url`)
             ) COLLATE='utf8mb4_unicode_ci';
         """)
         # 提交以确保MySQL创建数据库和表

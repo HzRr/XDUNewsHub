@@ -27,7 +27,7 @@ def crawl_page(url: str) -> List[NewsData]:
     news_list = html.xpath("//div[@class='list']//li/a")
     news_data_list = []
     for news in news_list:
-        news_data = NewsData()
+        news_data = NewsData(site_name, site_url)
         tree = etree.ElementTree(news)
 
         update_time = tree.xpath("//span/text()")[0]

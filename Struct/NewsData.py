@@ -8,6 +8,10 @@ class NewsData:
     site_name: str
     site_url: str
 
+    def __init__(self, site_name: str | None = None, site_url: str | None = None):
+        self.site_name = site_name
+        self.site_url = site_url
+
     def __str__(self):
         text = (f"url:       {self.url}\n"
                 f"title:     {self.title}\n"
